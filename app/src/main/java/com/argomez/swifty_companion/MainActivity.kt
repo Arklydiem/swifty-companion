@@ -1,6 +1,7 @@
 package com.argomez.swifty_companion
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -41,10 +42,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            SwiftyCompanionTheme {
+            SwiftyCompanionTheme(darkTheme = true) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    DisplayBackground()
-                    DisplayContent(
+                    Background()
+                    Content(
                         context = this,
                         modifier = Modifier.padding(innerPadding)
                     )
@@ -55,17 +56,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun DisplayBackground() {
-    Image(
-        painter = painterResource(id = R.drawable.background42),
-        contentDescription = "Background image 42",
-        modifier = Modifier.fillMaxSize(),
-        contentScale = androidx.compose.ui.layout.ContentScale.Crop
-    )
-}
-
-@Composable
-fun DisplayContent(context: Context, modifier: Modifier = Modifier) {
+private fun Content(context: Context, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier.fillMaxSize(), // Make the Box take the entire screen
         contentAlignment = Alignment.Center // Align content in the center
@@ -82,14 +73,14 @@ fun DisplayContent(context: Context, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ScreenSpacer(divisor: Float) {
+private fun ScreenSpacer(divisor: Float) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp;
 
     Spacer(modifier = Modifier.height(screenHeight / divisor))
 }
 
 @Composable
-fun Logo() {
+private fun Logo() {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp;
     val divisor = 1.5f
 
@@ -104,9 +95,9 @@ fun Logo() {
 }
 
 @Composable
-fun LoginButton(context: Context) {
+private fun LoginButton(context: Context) {
     Button(
-        onClick = { test(context) },
+        onClick = { connection(context) },
         modifier = Modifier
             .padding(8.dp),
         colors = ButtonDefaults.buttonColors(
@@ -120,7 +111,7 @@ fun LoginButton(context: Context) {
 }
 
 @Composable
-fun ButtonContent() {
+private fun ButtonContent() {
     Row(
         verticalAlignment = Alignment.CenterVertically, // Center content vertically
         horizontalArrangement = Arrangement.Center // Center content horizontally
@@ -128,7 +119,9 @@ fun ButtonContent() {
         Icon(
             painter = painterResource(id = R.drawable.baseline_login_24),
             contentDescription = "Log in",
-            modifier = Modifier.width(36.dp).height(36.dp),
+            modifier = Modifier
+                .width(36.dp)
+                .height(36.dp),
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
@@ -144,10 +137,18 @@ fun ButtonContent() {
     }
 }
 
-fun test(context: Context) {
-    val text = "Hello toast!"
-    val duration = Toast.LENGTH_SHORT
+private fun connection(context: Context) {
+    val connexionEstablished = true
 
-    val toast = Toast.makeText(context, text, duration) // in Activity
-    toast.show()
+    if (connexionEstablished) {
+        // Navigate to SearchActivity
+        val intent = Intent(context, SearchActivity::class.java)
+        context.startActivity(intent)
+    } else {
+        val text = "Error during login"
+        val duration = Toast.LENGTH_SHORT
+
+        val toast = Toast.makeText(context, text, duration) // Show error toast
+        toast.show()
+    }
 }
