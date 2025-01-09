@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "swifty_companion"
+rootProject.name = "Swifty-Companion"
 include(":app")
