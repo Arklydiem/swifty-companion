@@ -10,24 +10,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,6 +33,11 @@ class SearchActivity : ComponentActivity() {
     private val userFoundState = mutableStateOf(true)
     private val firstSearchDone = mutableStateOf(false)
 
+    /**
+     * Lifecycle method that sets up the content view and initializes states.
+     *
+     * @param savedInstanceState Bundle containing the activity's previously saved state.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -64,6 +56,12 @@ class SearchActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * Searches for a user by their login.
+     *
+     * @param context The context of the activity.
+     * @param toSearch The login to search for.
+     */
     fun search(context: Context, toSearch: String) {
         val userFound = false
         firstSearchDone.value = true
@@ -76,6 +74,11 @@ class SearchActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * Handles user disconnection by navigating back to the main activity.
+     *
+     * @param context The context of the activity.
+     */
     fun disconnection(context: Context) {
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -85,6 +88,14 @@ class SearchActivity : ComponentActivity() {
     }
 }
 
+/**
+ * Displays the main content of the search screen.
+ *
+ * @param context The context of the activity.
+ * @param modifier A modifier applied to the composable.
+ * @param userFound A boolean indicating if the user was found.
+ * @param firstSearchDone A boolean indicating if a search has been performed.
+ */
 @Composable
 private fun Content(context: Context, modifier: Modifier = Modifier,
                     userFound: Boolean, firstSearchDone: Boolean) {
@@ -92,25 +103,31 @@ private fun Content(context: Context, modifier: Modifier = Modifier,
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
     Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
+        modifier = modifier
+            .fillMaxSize(),
     ) {
         Column(
-            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Menu(context, modifier, screenHeight, screenWidth)
-            Spacer(modifier = Modifier
-                .height((screenHeight / 10) * .2f)
-            )
-            Body(context, modifier, screenHeight, screenWidth, userFound, firstSearchDone)
+            Menu(context, screenHeight, screenWidth)
+            Body(screenHeight, screenWidth, userFound, firstSearchDone)
         }
     }
 }
 
+/**
+ * Displays the menu bar containing the search bar and logout button.
+ *
+ * @param context The context of the activity.
+ * @param screenHeight The height of the screen in Dp.
+ * @param screenWidth The width of the screen in Dp.
+ */
 @Composable
-private fun Menu(context: Context, modifier: Modifier = Modifier,
-                 screenHeight: Dp, screenWidth: Dp) {
+private fun Menu(context: Context, screenHeight: Dp, screenWidth: Dp) {
     Box(
         modifier = Modifier
             .height((screenHeight / 10) * 1)
@@ -122,7 +139,7 @@ private fun Menu(context: Context, modifier: Modifier = Modifier,
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically, // Centrer le contenu verticalement
+            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
             SearchBar(context)
@@ -131,19 +148,20 @@ private fun Menu(context: Context, modifier: Modifier = Modifier,
     }
 }
 
+/**
+ * Displays the body section showing search results.
+ *
+ * @param screenHeight The height of the screen in Dp.
+ * @param screenWidth The width of the screen in Dp.
+ * @param userFound A boolean indicating if the user was found.
+ * @param firstSearchDone A boolean indicating if a search has been performed.
+ */
 @Composable
-private fun Body(
-    context: Context,
-    modifier: Modifier = Modifier,
-    screenHeight: Dp,
-    screenWidth: Dp,
-    userFound: Boolean,
-    firstSearchDone: Boolean
-) {
+private fun Body(screenHeight: Dp, screenWidth: Dp, userFound: Boolean, firstSearchDone: Boolean) {
     Box(
         modifier = Modifier
-            .height((screenHeight / 10) * 8f)
             .width((screenWidth / 10) * 9)
+            .height((screenHeight / 10) * 8)
             .background(
                 color = Color.Black.copy(alpha = 0.5f),
                 shape = RoundedCornerShape(16.dp)
@@ -157,8 +175,7 @@ private fun Body(
                     modifier = Modifier.align(Alignment.Center),
                     fontSize = 18.sp
                 )
-            }
-            else {
+            } else {
                 Text(
                     text = "User found",
                     color = Color.White,
@@ -167,10 +184,14 @@ private fun Body(
                 )
             }
         }
-
     }
 }
 
+/**
+ * Displays a search bar allowing the user to search for a login.
+ *
+ * @param context The context of the activity.
+ */
 @Composable
 private fun SearchBar(context: Context) {
     val textState = remember { mutableStateOf("") }
@@ -201,11 +222,16 @@ private fun SearchBar(context: Context) {
     )
 }
 
+/**
+ * Displays a logout button that allows the user to disconnect.
+ *
+ * @param context The context of the activity.
+ */
 @Composable
 private fun LogOut(context: Context) {
     Icon(
         painter = painterResource(id = R.drawable.baseline_logout_24),
-        contentDescription = "Log in",
+        contentDescription = "Log out",
         tint = Color.White,
         modifier = Modifier
             .width(36.dp)

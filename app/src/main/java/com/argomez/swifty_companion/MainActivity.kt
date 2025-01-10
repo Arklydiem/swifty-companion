@@ -8,21 +8,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,6 +26,11 @@ import androidx.compose.ui.unit.sp
 import com.argomez.swifty_companion.ui.theme.SwiftyCompanionTheme
 
 class MainActivity : ComponentActivity() {
+    /**
+     * Lifecycle method that sets up the main content view.
+     *
+     * @param savedInstanceState Bundle containing the activity's previously saved state.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -55,100 +48,102 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+/**
+ * Displays the main content of the app, including the logo, spacer, and login button.
+ *
+ * @param context The context of the activity used for navigation or displaying toasts.
+ * @param modifier A modifier applied to the composable.
+ */
 @Composable
 private fun Content(context: Context, modifier: Modifier = Modifier) {
     Box(
-        modifier = modifier.fillMaxSize(), // Make the Box take the entire screen
-        contentAlignment = Alignment.Center // Align content in the center
+        modifier = modifier.fillMaxSize(),
     ) {
         Column(
-            verticalArrangement = Arrangement.Center, // Center content vertically
-            horizontalAlignment = Alignment.CenterHorizontally // Center content horizontally
+            modifier = modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Logo()
-            ScreenSpacer(5f)
+            Logo(modifier)
             LoginButton(context)
         }
     }
 }
 
+/**
+ * Displays the app's logo with specific dimensions and transparency.
+ */
 @Composable
-private fun ScreenSpacer(divisor: Float) {
-    val screenHeight = LocalConfiguration.current.screenHeightDp.dp;
-
-    Spacer(modifier = Modifier.height(screenHeight / divisor))
-}
-
-@Composable
-private fun Logo() {
+private fun Logo(modifier: Modifier = Modifier) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp;
     val divisor = 1.5f
 
     Image(
         painter = painterResource(id = R.drawable.logo42),
         contentDescription = "Logo image 42",
-        modifier = Modifier
+        modifier = modifier
             .width(screenWidth / divisor)
             .height(screenWidth / divisor)
             .alpha(0.85f),
     )
 }
 
+/**
+ * Displays the login button, which triggers the `connection` function when clicked.
+ *
+ * @param context The context of the activity used for navigation or displaying toasts.
+ */
 @Composable
 private fun LoginButton(context: Context) {
     Button(
         onClick = { connection(context) },
-        modifier = Modifier
-            .padding(8.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Black.copy(alpha = 0.5f), // Background color
-            contentColor = Color.White,  // Text/Icon color
+            containerColor = Color.Black.copy(alpha = 0.5f),
+            contentColor = Color.White,
         ),
         shape = RoundedCornerShape(8.dp)
     ) {
-        ButtonContent()
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_login_24),
+                contentDescription = "Log in",
+                modifier = Modifier
+                    .width(36.dp)
+                    .height(36.dp),
+            )
+            Text(
+                text = "Log in with 42",
+                fontSize = 18.sp,
+                fontFamily = FontFamily(
+                    Font(R.font.futura_cyrillic_light, FontWeight.Thin),
+                    Font(R.font.futura_cyrillic_medium, FontWeight.Normal),
+                    Font(R.font.futura_cyrillic_heavy, FontWeight.Bold)
+                ),
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
 }
 
-@Composable
-private fun ButtonContent() {
-    Row(
-        verticalAlignment = Alignment.CenterVertically, // Center content vertically
-        horizontalArrangement = Arrangement.Center // Center content horizontally
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.baseline_login_24),
-            contentDescription = "Log in",
-            modifier = Modifier
-                .width(36.dp)
-                .height(36.dp),
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            text = "Log in with 42",
-            fontSize = 18.sp,
-            fontFamily = FontFamily(
-                Font(R.font.futura_cyrillic_light, FontWeight.Thin),
-                Font(R.font.futura_cyrillic_medium, FontWeight.Normal),
-                Font(R.font.futura_cyrillic_heavy, FontWeight.Bold)
-            ),
-            fontWeight = FontWeight.Bold
-        )
-    }
-}
-
+/**
+ * Handles the login process by navigating to the search activity or showing an error message.
+ *
+ * @param context The context of the activity used for navigation or displaying toasts.
+ */
 private fun connection(context: Context) {
-    val connexionEstablished = true
+    val connectionEstablished = true
 
-    if (connexionEstablished) {
-        // Navigate to SearchActivity
+    if (connectionEstablished) {
         val intent = Intent(context, SearchActivity::class.java)
         context.startActivity(intent)
     } else {
         val text = "Error during login"
         val duration = Toast.LENGTH_SHORT
 
-        val toast = Toast.makeText(context, text, duration) // Show error toast
+        val toast = Toast.makeText(context, text, duration)
         toast.show()
     }
 }
