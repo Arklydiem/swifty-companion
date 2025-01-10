@@ -1,4 +1,4 @@
-package com.argomez.swifty_companion
+package com.example.swifty_companion
 
 import android.content.Context
 import android.content.Intent
@@ -23,7 +23,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.argomez.swifty_companion.ui.theme.SwiftyCompanionTheme
+import com.example.swifty_companion.ui.theme.SwiftyCompanionTheme
 
 class MainActivity : ComponentActivity() {
     /**

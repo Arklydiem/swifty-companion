@@ -1,6 +1,5 @@
-package com.argomez.swifty_companion.ui.theme
+package com.example.swifty_companion.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -16,7 +15,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.argomez.swifty_companion.R
+import com.example.swifty_companion.R
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,

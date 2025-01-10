@@ -1,4 +1,4 @@
-package com.argomez.swifty_companion
+package com.example.swifty_companion
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

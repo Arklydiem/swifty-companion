@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.argomez.swifty_companion"
+    namespace = "com.example.swifty_companion"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.argomez.swifty_companion"
+        applicationId = "com.example.swifty_companion"
         minSdk = 25
         targetSdk = 35
         versionCode = 1
@@ -40,12 +40,6 @@ android {
 }
 
 dependencies {
-//    Manual implementations
-//    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-//    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-//    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
-
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

@@ -1,4 +1,4 @@
-package com.argomez.swifty_companion
+package com.example.swifty_companion
 
 import org.junit.Test
 

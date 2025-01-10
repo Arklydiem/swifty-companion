@@ -1,4 +1,4 @@
-package com.argomez.swifty_companion
+package com.example.swifty_companion
 
 import android.app.Activity
 import android.content.Context
@@ -27,7 +27,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.argomez.swifty_companion.ui.theme.SwiftyCompanionTheme
+import com.example.swifty_companion.ui.theme.SwiftyCompanionTheme
 
 class SearchActivity : ComponentActivity() {
     private val userFoundState = mutableStateOf(true)

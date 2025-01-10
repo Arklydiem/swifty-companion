@@ -1,4 +1,4 @@
-package com.argomez.swifty_companion
+package com.example.swifty_companion
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
