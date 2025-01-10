@@ -75,7 +75,7 @@ private fun Content(context: Context, modifier: Modifier = Modifier) {
  */
 @Composable
 private fun Logo(modifier: Modifier = Modifier) {
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp;
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val divisor = 1.5f
 
     Image(
